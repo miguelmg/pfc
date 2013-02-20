@@ -1,0 +1,10 @@
+<xml version="2.0">
+	<actividades>
+		<actividad>
+			<titulo>Prova</titulo>
+			<recursos>pelotas</recursos>
+			<cantidad>3</cantidad>
+			<objetivo>Mover</objetivo> 
+		</actividad>
+	</actividades>
+</xml>

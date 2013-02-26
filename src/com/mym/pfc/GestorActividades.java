@@ -1,5 +1,9 @@
 package com.mym.pfc;
 
+import java.util.jar.JarOutputStream;
+
+import org.json.JSONObject;
+
 import com.mym.pfc.actividades.Balones;
 
 import android.os.Bundle;
@@ -23,22 +27,25 @@ public class GestorActividades extends Activity {
 		
 		Button buton = (Button)findViewById(R.id.buton);
 		 
-        //Implementamos el evento “click” del botón
+        //Implementamos el evento â€œclickâ€� del botÃ³n
         buton.setOnClickListener(new OnClickListener() {
              @Override
              public void onClick(View v) {
                   //Creamos el Intent
-                  Intent intent = new Intent(GestorActividades.this, Balones.class);
+            	 JSONParser jsonParser = new JSONParser();
+            	 JSONObject jsonObject = jsonParser.getJSONFromFile("activitat.json");
+            	 
+                 Intent intent = new Intent(GestorActividades.this, Balones.class);
  
-                  //Creamos la información a pasar entre actividades
-                  //Bundle b = new Bundle();
-                  //b.putString("NOMBRE", txtNombre.getText().toString());
- 
-                  //Añadimos la información al intent
-                  //intent.putExtras(b);
- 
-                  //Iniciamos la nueva actividad
-                  startActivity(intent);
+				 //Creamos la informaciÃ³n a pasar entre actividades
+				 //Bundle b = new Bundle();
+				 //b.putString("NOMBRE", txtNombre.getText().toString());
+				 
+				 //AÃ±adimos la informaciÃ³n al intent
+				 //intent.putExtras(b);
+				 
+				 //Iniciamos la nueva actividad
+				 startActivity(intent);
              }
         });
 		

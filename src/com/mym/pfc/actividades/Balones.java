@@ -72,7 +72,7 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	    @Override
 	    protected void onCreateResources() {
 	    	this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 64);
-	        this.mBallTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "ui_ball_1.png", 0, 0, 1, 1);
+	        this.mBallTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "pelotas.png", 0, 0, 1, 1);
 	        
 	        this.mBitmapTextureAtlas.load();
 	 
@@ -152,6 +152,7 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	            @Override
 	            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
 	            {
+	            	//if()
                     this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2,
 	            			pSceneTouchEvent.getY() - this.getHeight() / 2);
 	                return true;

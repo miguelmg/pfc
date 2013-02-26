@@ -1,4 +1,4 @@
-package com.mym.pfc;
+package com.mym.pfc.parser;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -15,17 +15,20 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
  
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.util.Log;
  
 public class JSONParser {
  
-    static InputStream is = null;
-    static JSONObject jObj = null;
-    static String json = "";
+	private InputStream is = null;
+    private JSONObject jObj = null;
+    private String json = "";
+    private Context c;
  
     // constructor
-    public JSONParser() {
-    	
+    public JSONParser(Context c) {
+    	this.c= c;
     }
  
     public JSONObject getJSONFromUrl(String url) {
@@ -75,19 +78,20 @@ public class JSONParser {
     
     public JSONObject getJSONFromFile(String fileName) {
     	 
-    	FileInputStream jsonFile = null;
+    	//FileInputStream jsonFile = null;
 
         try {
-        	jsonFile = new FileInputStream(fileName);
+        	//jsonFile = new FileInputStream(fileName);
+        	InputStream is = c.getAssets().open(fileName);
             
-        	BufferedReader reader = new BufferedReader(new InputStreamReader(jsonFile, "iso-8859-1"), 8);
+        	BufferedReader reader = new BufferedReader(new InputStreamReader(is), 8);
             StringBuilder sb = new StringBuilder();
             String line = null;
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
             }
             
-            jsonFile.close();
+            //jsonFile.close();
             json = sb.toString();
             
             // try parse the string to a JSON object

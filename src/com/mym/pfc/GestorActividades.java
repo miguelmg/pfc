@@ -5,9 +5,11 @@ import java.util.jar.JarOutputStream;
 import org.json.JSONObject;
 
 import com.mym.pfc.actividades.Balones;
+import com.mym.pfc.parser.JSONParser;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -23,7 +25,7 @@ public class GestorActividades extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gestor_actividades);
-		
+		final Context c = GestorActividades.this.getBaseContext();
 		
 		Button buton = (Button)findViewById(R.id.buton);
 		 
@@ -32,7 +34,7 @@ public class GestorActividades extends Activity {
              @Override
              public void onClick(View v) {
                   //Creamos el Intent
-            	 JSONParser jsonParser = new JSONParser();
+            	 JSONParser jsonParser = new JSONParser(c);
             	 JSONObject jsonObject = jsonParser.getJSONFromFile("activitat.json");
             	 
                  Intent intent = new Intent(GestorActividades.this, Balones.class);

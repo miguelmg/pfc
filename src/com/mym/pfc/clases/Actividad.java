@@ -1,4 +1,4 @@
-package com.mym.pfc;
+package com.mym.pfc.clases;
 
 public class Actividad {
 	

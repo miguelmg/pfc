@@ -1,10 +1,12 @@
-package com.mym.pfc;
+package com.mym.pfc.parser;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.*;
 
 import org.xml.sax.*;
+
+import com.mym.pfc.clases.Actividad;
 
 import android.sax.*;
 import android.util.Xml;

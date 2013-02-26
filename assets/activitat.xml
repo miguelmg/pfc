@@ -1,7 +1,7 @@
 <xml version="2.0">
 	<actividades>
 		<actividad>
-			<titulo>Prova</titulo>
+			<titulo>Balones</titulo>
 			<recursos>pelotas</recursos>
 			<cantidad>3</cantidad>
 			<objetivo>Mover</objetivo> 

@@ -1,0 +1,16 @@
+{
+    "actividad": [
+        {
+                "titulo": "Balones",
+                "recursos": "Pelotas",
+                "cantidad": "3",
+                "objetivo": "Mover",
+        },
+        {
+                "titulo": "Balones",
+                "recursos": "Flores",
+                "cantidad": "3",
+                "objetivo": "Mover",
+        },
+    ]
+}

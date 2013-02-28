@@ -20,12 +20,14 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-public class GestorActividades extends Activity {
+public class GestorActividades extends Activity implements OnItemClickListener{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +57,11 @@ public class GestorActividades extends Activity {
 		ListView listaActividades = (ListView)findViewById(R.id.lista_actividades);
 		
 		listaActividades.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1 , titulosActividades));
+		listaActividades.setOnItemClickListener(this);
 		
+		/*Haciendo funcional la lista*/
 		
-        //Intent intent = new Intent(GestorActividades.this, Balones.class);
+        
 
 		 //Creamos la informaciÃ³n a pasar entre actividades
 		 //Bundle b = new Bundle();
@@ -94,6 +98,18 @@ public class GestorActividades extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.gestor_actividades, menu);
 		return true;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+		
+		Intent intent = new Intent(GestorActividades.this, Balones.class);
+		startActivity(intent);
+		/*Intent intent = new Intent();
+        intent.putExtra(LlistatOpcions.KEY_LLISTAT, opcions[position]);
+        
+        intent.setClass(this, com.tarracodroid.apps.tastabirres.LlistaBars.class);
+        this.startActivity(intent);*/
 	}
 
 }

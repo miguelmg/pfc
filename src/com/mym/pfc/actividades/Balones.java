@@ -19,6 +19,12 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
+import com.mym.pfc.GestorActividades;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -29,6 +35,8 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	    // ===========================================================
 	    static final int CAMERA_WIDTH = 480;
 	    static final int CAMERA_HEIGHT = 854;
+	    
+	    static final int OBJETIVO_ENCONTRADO = 0;
 	 
 	    // ===========================================================
 	    // Fields
@@ -155,6 +163,9 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	            	//if()
                     this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2,
 	            			pSceneTouchEvent.getY() - this.getHeight() / 2);
+                    Dialog dialog = onCreateDialog(OBJETIVO_ENCONTRADO);
+                    dialog.show();
+                    
 	                return true;
 	            };
 	        };
@@ -188,5 +199,85 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 			// TODO Auto-generated method stub
 			
 		}
+		
+		
+		@Override
+		protected Dialog onCreateDialog(int id) {
+			Dialog newDialog = null;
+			
+			switch (id) {
+				case OBJETIVO_ENCONTRADO:
+		                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		                builder.setMessage("Muy bien!!!! \n Objetivo logrado.");
+		                builder.setCancelable(false);
+		                builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+		                    @Override
+		                    public void onClick(DialogInterface dialogInterface, int id) {
+		                    	Intent intent = new Intent(Balones.this, GestorActividades.class);
+		    					startActivity(intent);
+		                    }
+		                });
+
+		                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+
+		                    @Override
+		                    public void onClick(DialogInterface dialog, int id) {
+		                        dialog.cancel();
+		                    }
+		                });
+		                newDialog = builder.create();
+		                break;
+			}
+			return newDialog;
+		}
+		
+		
+		public void objetivoFinal(){
+//			 AlertDialog alertDialog = new AlertDialog.Builder(this)
+//		        .setTitle("Pop-up/Diálogo de alerta")//Título del diálogo
+//		        .setMessage("¿Desea Continuar?")//Mensaje del diálogo
+//		        .setPositiveButton("Si"/*Texto del botón positivo*/, new AlertDialog.OnClickListener() {
+//		            public void onClick(DialogInterface arg0, int arg1) {
+//		                // Aquí irá lo que se desee hacer cuando hagamos click en el boton Si
+//		                //Llamo al método alertaSi()
+//		            	Intent intent = new Intent(Balones.this, GestorActividades.class);
+//	            		startActivity(intent);
+//		            }
+//		 
+//		        })
+//		        .setNegativeButton("No"/*Texto del botón negativo*/, new AlertDialog.OnClickListener() {
+//		            public void onClick(DialogInterface dialog, int which) {
+//		                //Aquí irá lo que se desee hacer cuando hagamos click en el botón Cancelar
+//		                //Llamo al método alertaNo
+//		                //alertaNo();
+//		            }
+//		        })
+//		        .setNeutralButton("Cancelar"/*Texto del botón cancelar*/, new AlertDialog.OnClickListener() {
+//		            public void onClick(DialogInterface dialog, int which) {
+//		                //Aquí irá lo que se desee hacer cuando hagamos click en el botón No
+//		                //Llamo al método alertaCancelar
+//		                //alertaCancelar();
+//		            }
+//		        }).create();
+//		        //Muestro el diálogo
+//		        alertDialog.show();
+			
+			
+			
+			
+			
+			/*AlertDialog alertDialog = new AlertDialog.Builder(this)
+				.setMessage("Muy Bien!!! \n Objetivo logrado.")
+				.setCancelable(false)
+				.setPositiveButton("Continuar",
+                    new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+		                    Intent intent = new Intent(Balones.this, GestorActividades.class);
+		            		startActivity(intent);
+						}
+				}).create();
+				alertDialog.show();*/
+		}
+		
 
 }

@@ -24,11 +24,11 @@ public class JSONParser {
 	private InputStream is = null;
     private JSONObject jObj = null;
     private String json = "";
-    private Context c;
+    private Context context;
  
     // constructor
     public JSONParser(Context c) {
-    	this.c= c;
+    	this.context = c;
     }
  
     public JSONObject getJSONFromUrl(String url) {
@@ -77,12 +77,9 @@ public class JSONParser {
     }
     
     public JSONObject getJSONFromFile(String fileName) {
-    	 
-    	//FileInputStream jsonFile = null;
 
         try {
-        	//jsonFile = new FileInputStream(fileName);
-        	InputStream is = c.getAssets().open(fileName);
+        	InputStream is = context.getAssets().open(fileName);
             
         	BufferedReader reader = new BufferedReader(new InputStreamReader(is), 8);
             StringBuilder sb = new StringBuilder();
@@ -91,7 +88,6 @@ public class JSONParser {
                 sb.append(line + "\n");
             }
             
-            //jsonFile.close();
             json = sb.toString();
             
             // try parse the string to a JSON object
@@ -104,7 +100,6 @@ public class JSONParser {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
  
-        // return JSON String
         return jObj;
  
     }

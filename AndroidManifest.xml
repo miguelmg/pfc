@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".actividades.Balones"></activity>
+        <activity android:name="Resultados"></activity>
     </application>
 
 </manifest>

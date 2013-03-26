@@ -1,41 +1,35 @@
 package com.mym.pfc.actividades;
 
+import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
+import org.andengine.engine.options.ScreenOrientation;
+import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
-import org.andengine.entity.sprite.Sprite;
-
-import org.andengine.engine.camera.Camera;
-import org.andengine.engine.options.ScreenOrientation;
-import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
-import com.mym.pfc.GestorActividades;
-import com.mym.pfc.Resultados;
+import android.content.Context;
+import android.view.Display;
+import android.view.WindowManager;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
+import com.mym.pfc.clases.ContenedorObjetos;
+import com.mym.pfc.image.GestorImagenes;
 
 public class Balones extends SimpleBaseGameActivity implements IScrollDetectorListener, IOnSceneTouchListener {
 
 	    // ===========================================================
 	    // Constants
 	    // ===========================================================
-	    static final int CAMERA_WIDTH = 480;
-	    static final int CAMERA_HEIGHT = 854;
+	    static int CAMERA_WIDTH = 480;
+	    static int CAMERA_HEIGHT = 854;
 	    
 	    static final int OBJETIVO_ENCONTRADO = 0;
 	 
@@ -51,13 +45,20 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	    
 	    private SurfaceScrollDetector mScrollDetector;
 	    
-	    static Sprite ball;
-	    static Sprite ball2;
-	    static Sprite ball3;
-	    static Sprite ball4;
-	    static Sprite ball5;
+//	    static Sprite ball;
+//	    static Sprite ball2;
+//	    static Sprite ball3;
+//	    static Sprite ball4;
+//	    static Sprite ball5;
 	    
 	    //private Sprite ball;
+	    
+	    
+	    private ContenedorObjetos co;
+	    private GestorImagenes gi;
+	    
+	    private ContenedorObjetos co2;
+	    private GestorImagenes gi2;
 	    
 	    // ===========================================================
 	    // Constructors
@@ -73,6 +74,10 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	 
 
 	    public EngineOptions onCreateEngineOptions() {
+	    	Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+	        CAMERA_WIDTH = display.getWidth();
+	        CAMERA_HEIGHT = display.getHeight();
+	    	
 	        this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 	 
 	        return new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
@@ -80,10 +85,18 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	 
 	    @Override
 	    protected void onCreateResources() {
-	    	this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 64);
-	        this.mBallTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "pelotas.png", 0, 0, 1, 1);
+	    	co = new ContenedorObjetos(0, "pelotas.png", 64, 64, 8);
+	    	
+	    	gi = new GestorImagenes(this.getBaseContext(), this.getTextureManager(), co);
+	    	
+	    	co2 = new ContenedorObjetos(1, "pelotas.png", 64, 64, 3);
+	    	
+	    	gi2 = new GestorImagenes(this.getBaseContext(), this.getTextureManager(), co2);
+	    	
+	    	//this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 64);
+	        //this.mBallTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "pelotas.png", 0, 0, 1, 1);
 	        
-	        this.mBitmapTextureAtlas.load();
+	        //this.mBitmapTextureAtlas.load();
 	 
 	    }
 	 
@@ -94,87 +107,13 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	 
 	        this.mMainScene.setBackground(new Background(0, 0, 0.8784f));
 	        
-	        final float centerX = (CAMERA_WIDTH - this.mBallTiledTextureRegion.getWidth()) / 2;
-	        final float centerY = (CAMERA_HEIGHT - this.mBallTiledTextureRegion.getHeight()) / 2;
+	        float[] area = new float[]{0.0f, 0.5f, 0.0f, 1f};
 	        
-	        /* Dibujamos la bola en el centro de la pantalla. */
-	        //final Sprite ball = new Sprite(centerX, centerY, this.mBallTiledTextureRegion, this.getVertexBufferObjectManager());
+	        gi.dibujaImagenes(area, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
 	        
-	        ball = new Sprite(centerX, centerY, this.mBallTiledTextureRegion, this.getVertexBufferObjectManager())
-	        {
-	            @Override
-	            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
-	            {
-	            	this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2,
-	            			pSceneTouchEvent.getY() - this.getHeight() / 2);
-	                return true;
-	            };
-	        };
+	        float[] area2 = new float[]{0.5f, 1f, 0.0f, 1f};
 	        
-	        this.mMainScene.registerTouchArea(ball);
-	        this.mMainScene.attachChild(ball);
-	        
-	        ball2 = new Sprite(centerX-centerX/2, centerY-centerY/2, this.mBallTiledTextureRegion, this.getVertexBufferObjectManager())
-	        {
-	            @Override
-	            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
-	            {
-                    this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2,
-	            			pSceneTouchEvent.getY() - this.getHeight() / 2);
-	                return true;
-	            };
-	        };
-	        
-	        this.mMainScene.registerTouchArea(ball2);
-	        this.mMainScene.attachChild(ball2);
-	        
-	        ball3 = new Sprite(centerX+centerX/2, centerY+centerY/2, this.mBallTiledTextureRegion, this.getVertexBufferObjectManager())
-	        {
-	            @Override
-	            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
-	            {
-                    this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2,
-	            			pSceneTouchEvent.getY() - this.getHeight() / 2);
-	                return true;
-	            };
-	        };
-	        
-	        this.mMainScene.registerTouchArea(ball3);
-	        this.mMainScene.attachChild(ball3);
-	        
-	        ball4 = new Sprite(centerX-centerX/2, centerY+centerY/2, this.mBallTiledTextureRegion, this.getVertexBufferObjectManager())
-	        {
-	            @Override
-	            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
-	            {
-                    this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2,
-	            			pSceneTouchEvent.getY() - this.getHeight() / 2);
-	                return true;
-	            };
-	        };
-	        
-	        this.mMainScene.registerTouchArea(ball4);
-	        this.mMainScene.attachChild(ball4);
-	        
-	        ball5 = new Sprite(centerX+centerX/2, centerY-centerY/2, this.mBallTiledTextureRegion, this.getVertexBufferObjectManager())
-	        {
-	            @Override
-	            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
-	            {
-	            	//if()
-	            	this.clearEntityModifiers();
-                    //this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2,
-	            		//	pSceneTouchEvent.getY() - this.getHeight() / 2);
-                    //Dialog dialog = onCreateDialog(OBJETIVO_ENCONTRADO);
-                    //dialog.show();
-                    Intent intent = new Intent(Balones.this, Resultados.class);
-					startActivity(intent);
-	                return true;
-	            };
-	        };
-	        
-	        this.mMainScene.registerTouchArea(ball5);
-	        this.mMainScene.attachChild(ball5);
+	        gi2.dibujaImagenes(area2, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
 	        
 	        return this.mMainScene;
 	        

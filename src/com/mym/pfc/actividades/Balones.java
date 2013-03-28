@@ -1,27 +1,35 @@
 package com.mym.pfc.actividades;
 
 import org.andengine.engine.camera.Camera;
+import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.color.Color;
 
+import android.R;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.Display;
 import android.view.WindowManager;
 
 import com.mym.pfc.clases.ContenedorObjetos;
 import com.mym.pfc.image.GestorImagenes;
+import com.mym.pfc.modulos.GestorFuentes;
 
 public class Balones extends SimpleBaseGameActivity implements IScrollDetectorListener, IOnSceneTouchListener {
 
@@ -33,6 +41,11 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	    
 	    static final int OBJETIVO_ENCONTRADO = 0;
 	 
+	    static boolean hasTouched = false;
+	    static boolean touchText = false;
+	    static boolean digText = false;
+	    private Font mFont;
+	    
 	    // ===========================================================
 	    // Fields
 	    // ===========================================================
@@ -59,6 +72,8 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	    
 	    private ContenedorObjetos co2;
 	    private GestorImagenes gi2;
+	    
+	    private GestorFuentes gf;
 	    
 	    // ===========================================================
 	    // Constructors
@@ -106,15 +121,44 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	        this.mMainScene = new Scene();
 	 
 	        this.mMainScene.setBackground(new Background(0, 0, 0.8784f));
+
+	        float centerX = 0.5f;//CAMERA_WIDTH/2.0f;
+	        float centerY = 0.5f;//CAMERA_HEIGHT/2.0f;
 	        
-	        float[] area = new float[]{0.0f, 0.5f, 0.0f, 1f};
+	        //this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32);
+
+	        //this.mFont.load();
+//	        final Text centerText = new Text(100, 40, this.mFont, "Hello AndEngine\nYou can even have multilined text", this.getVertexBufferObjectManager()){
+//				@Override
+//				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+//					hasTouched = true;
+//					return true;
+//				}
+//	        };
+//	        
+//	        /* Attach the Text object to the Scene */
+//	        mMainScene.registerTouchArea(centerText);
+//	        mMainScene.attachChild(centerText);      
 	        
-	        gi.dibujaImagenes(area, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
+	        GestorFuentes.cargarFuente(this.getFontManager(), this.getTextureManager());
 	        
-	        float[] area2 = new float[]{0.5f, 1f, 0.0f, 1f};
+	        gf = new GestorFuentes();
 	        
-	        gi2.dibujaImagenes(area2, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
+	        gf.añadirTexto(10, 40, "Escoja respuesta correcta", mMainScene, this.getVertexBufferObjectManager());
+
 	        
+	        gf.añadirTextoClicable(10, 400, "Hola", mMainScene, this.getVertexBufferObjectManager());
+	        
+	        
+	        
+//	        float[] area = new float[]{0.0f, 0.5f, 0.0f, 1f};
+//	        
+//	        gi.dibujaImagenes(area, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
+//	        
+//	        float[] area2 = new float[]{0.5f, 1f, 0.0f, 1f};
+//	        
+//	        gi2.dibujaImagenes(area2, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
+
 	        return this.mMainScene;
 	        
 	    }

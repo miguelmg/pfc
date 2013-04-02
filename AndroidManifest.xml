@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".actividades.Balones"></activity>
         <activity android:name="Resultados"></activity>
+        <activity android:name=".actividades.Textos"></activity>
     </application>
 
 </manifest>

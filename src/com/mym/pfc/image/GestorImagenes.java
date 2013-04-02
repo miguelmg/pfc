@@ -13,6 +13,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.content.Context;
 
+import com.mym.pfc.actividades.Actividades;
 import com.mym.pfc.clases.ContenedorObjetos;
 import com.mym.pfc.clases.Posicion;
 
@@ -20,16 +21,16 @@ public class GestorImagenes {
 	private TextureManager mTextureManager;
 	private BitmapTextureAtlas mBitmapTextureAtlas;
     private TiledTextureRegion mBallTiledTextureRegion;
-    private Context contexto;
+    //private Context contexto;
     private ContenedorObjetos elementos;
     private int width, height;
     private String nombreImagen;
     //private Sprite elemento;
     private ArrayList<Sprite> sprites;
+    private Actividades act;
 	
-    public GestorImagenes(Context c, TextureManager tm, ContenedorObjetos elementos){
-    
-    	contexto = c;
+    public GestorImagenes(Actividades act, TextureManager tm, ContenedorObjetos elementos){
+    	this.act = act;
 		mTextureManager = tm;
 		this.elementos = elementos;
 		nombreImagen = elementos.getNombre();
@@ -43,7 +44,7 @@ public class GestorImagenes {
     private boolean cargaImagen(String nombreImagen, int width, int height){
 		
     	this.mBitmapTextureAtlas = new BitmapTextureAtlas(mTextureManager, width, height);
-        this.mBallTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, contexto, nombreImagen, 0, 0, 1, 1);
+        this.mBallTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, act.getBaseContext(), nombreImagen, 0, 0, 1, 1);
         this.mBitmapTextureAtlas.load();
 		return true;
 		
@@ -64,7 +65,13 @@ public class GestorImagenes {
 		Sprite mSprite;
 		sprites = null;
 		sprites = new ArrayList<Sprite>();
+		int objDibujados = 0;
 		for(Posicion pos : posiciones){
+			if(objDibujados < elementos.getNumeroObjetos()){
+				objDibujados++;
+			}else{
+				break;
+			}
 			
 //			float pX = ((((pos.getN()[0] - pos.getM()[0]) / 2) * x) / 100) * screenSize[0];
 //			float pY = ((((pos.getM()[1] - pos.getO()[1]) / 2) * y) / 100) * screenSize[1];
@@ -82,6 +89,7 @@ public class GestorImagenes {
 	            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
 	            {
 	            	elementos.setTocado(true);
+	            	act.gameToast("Has tocado el conjunto de " + elementos.getNumeroObjetos() + " objetos.");
 	                return true;
 	            };
 	        };

@@ -1,31 +1,26 @@
 package com.mym.pfc;
 
 import java.util.ArrayList;
-import java.util.jar.JarOutputStream;
 
 import org.json.JSONObject;
 
-import com.mym.pfc.actividades.Balones;
-import com.mym.pfc.clases.Actividad;
-import com.mym.pfc.parser.ActivitatParser;
-import com.mym.pfc.parser.JSONParser;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.DataSetObserver;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.mym.pfc.actividades.Balones;
+import com.mym.pfc.actividades.Textos;
+import com.mym.pfc.clases.Actividad;
+import com.mym.pfc.parser.ActivitatParser;
+import com.mym.pfc.parser.JSONParser;
 
 public class GestorActividades extends Activity implements OnItemClickListener{
 
@@ -102,9 +97,24 @@ public class GestorActividades extends Activity implements OnItemClickListener{
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-		Intent intent = new Intent(GestorActividades.this, Balones.class);
-		startActivity(intent);
-		finish();
+		Intent intent;
+		
+		switch (position) {
+			case 0:
+					intent = new Intent(GestorActividades.this, Balones.class);
+					startActivity(intent);
+					//finish();
+				break;
+			case 1:
+					intent = new Intent(GestorActividades.this, Textos.class);
+					startActivity(intent);
+					//finish();
+			break;
+			default:
+				break;
+		}
+		
+		
 		/*Intent intent = new Intent();
         intent.putExtra(LlistatOpcions.KEY_LLISTAT, opcions[position]);
         

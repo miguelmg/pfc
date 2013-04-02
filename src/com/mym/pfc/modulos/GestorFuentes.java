@@ -11,14 +11,23 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.graphics.Typeface;
 
+import com.mym.pfc.actividades.Actividades;
+import com.mym.pfc.actividades.Balones;
+
 public class GestorFuentes {
 	private static Font mFont;
 	private float positionX;
 	private float positionY;
 	private String texto;
+	private Actividades act;
+	
 	
 	public GestorFuentes(){
 		
+	}
+	
+	public GestorFuentes(Actividades act){
+		this.act = act;
 	}
 	
 	public boolean añadirTexto(float x, float y, String texto, Scene mScene, VertexBufferObjectManager vbom){
@@ -31,12 +40,14 @@ public class GestorFuentes {
 		return true;
 	}
 	
-	public boolean añadirTextoClicable(float x, float y, String texto, Scene mScene, VertexBufferObjectManager vbom){
+	public boolean añadirTextoClicable(float x, float y, final String texto, Scene mScene, VertexBufferObjectManager vbom){
 		
-		final Text centerText = new Text(x, y, mFont, texto, vbom){
+		final Text centerText = new Text(x, y, mFont, texto, vbom){	
+			String text = "Respuesta escogida: " + texto.toString();
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				//TODO llamara al evento que tenga que controlar la tarea(ejemplo: pantalla respuestas en caso de resultado correcto)
+				act.gameToast(text);
 				return true;
 			}
         };

@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class ContenedorObjetos {
 	
-	static float PADDING = 30; //porcentage de contenedor usado para el padding total de los objetos
-	static float POSITION = 70; //tamaño del contenedor usado para los objetos 
+	static float PADDING = 60; //porcentage de contenedor usado para el padding total de los objetos
+	static float POSITION = 40; //tamaño del contenedor usado para los objetos 
 
 	private int id;
 	private String nombre; 

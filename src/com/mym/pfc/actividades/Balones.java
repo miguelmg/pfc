@@ -26,12 +26,13 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.mym.pfc.clases.ContenedorObjetos;
 import com.mym.pfc.image.GestorImagenes;
 import com.mym.pfc.modulos.GestorFuentes;
 
-public class Balones extends SimpleBaseGameActivity implements IScrollDetectorListener, IOnSceneTouchListener {
+public class Balones extends Actividades implements IScrollDetectorListener, IOnSceneTouchListener {
 
 	    // ===========================================================
 	    // Constants
@@ -102,11 +103,11 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 	    protected void onCreateResources() {
 	    	co = new ContenedorObjetos(0, "pelotas.png", 64, 64, 8);
 	    	
-	    	gi = new GestorImagenes(this.getBaseContext(), this.getTextureManager(), co);
+	    	gi = new GestorImagenes(this, this.getTextureManager(), co);
 	    	
 	    	co2 = new ContenedorObjetos(1, "pelotas.png", 64, 64, 3);
 	    	
-	    	gi2 = new GestorImagenes(this.getBaseContext(), this.getTextureManager(), co2);
+	    	gi2 = new GestorImagenes(this, this.getTextureManager(), co2);
 	    	
 	    	//this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 64);
 	        //this.mBallTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "pelotas.png", 0, 0, 1, 1);
@@ -124,40 +125,25 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 
 	        float centerX = 0.5f;//CAMERA_WIDTH/2.0f;
 	        float centerY = 0.5f;//CAMERA_HEIGHT/2.0f;
-	        
-	        //this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32);
 
-	        //this.mFont.load();
-//	        final Text centerText = new Text(100, 40, this.mFont, "Hello AndEngine\nYou can even have multilined text", this.getVertexBufferObjectManager()){
-//				@Override
-//				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-//					hasTouched = true;
-//					return true;
-//				}
-//	        };
+//	        GestorFuentes.cargarFuente(this.getFontManager(), this.getTextureManager());
 //	        
-//	        /* Attach the Text object to the Scene */
-//	        mMainScene.registerTouchArea(centerText);
-//	        mMainScene.attachChild(centerText);      
-	        
-	        GestorFuentes.cargarFuente(this.getFontManager(), this.getTextureManager());
-	        
-	        gf = new GestorFuentes();
-	        
-	        gf.añadirTexto(10, 40, "Escoja respuesta correcta", mMainScene, this.getVertexBufferObjectManager());
-
-	        
-	        gf.añadirTextoClicable(10, 400, "Hola", mMainScene, this.getVertexBufferObjectManager());
-	        
-	        
-	        
-//	        float[] area = new float[]{0.0f, 0.5f, 0.0f, 1f};
+//	        gf = new GestorFuentes();
 //	        
-//	        gi.dibujaImagenes(area, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
+//	        gf.añadirTexto(10, 40, "Escoja respuesta correcta", mMainScene, this.getVertexBufferObjectManager());
+//
 //	        
-//	        float[] area2 = new float[]{0.5f, 1f, 0.0f, 1f};
-//	        
-//	        gi2.dibujaImagenes(area2, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
+//	        gf.añadirTextoClicable(10, 400, "Hola", mMainScene, this.getVertexBufferObjectManager());
+	        
+	        
+	        
+	        float[] area = new float[]{0.0f, 0.5f, 0.0f, 1f};
+	        
+	        gi.dibujaImagenes(area, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
+	        
+	        float[] area2 = new float[]{0.5f, 1f, 0.0f, 1f};
+	        
+	        gi2.dibujaImagenes(area2, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
 
 	        return this.mMainScene;
 	        
@@ -190,87 +176,15 @@ public class Balones extends SimpleBaseGameActivity implements IScrollDetectorLi
 			
 		}
 		
-		
-//		@Override
-//		protected Dialog onCreateDialog(int id) {
-//			Dialog newDialog = null;
-//			
-//			switch (id) {
-//				case OBJETIVO_ENCONTRADO:
-//					Intent intent = new Intent(Balones.this, Resultados.class);
-//					startActivity(intent);
-//					finish();
-////		                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-////		                builder.setMessage("Muy bien!!!! \n Objetivo logrado.");
-////		                builder.setCancelable(false);
-////		                builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-////		                    @Override
-////		                    public void onClick(DialogInterface dialogInterface, int id) {
-////		                    	Intent intent = new Intent(Balones.this, GestorActividades.class);
-////		    					startActivity(intent);
-////		                    }
-////		                });
-////
-////		                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-////
-////		                    @Override
-////		                    public void onClick(DialogInterface dialog, int id) {
-////		                        dialog.cancel();
-////		                    }
-////		                });
-////		                newDialog = builder.create();
-//		                break;
-//			}
-//			return newDialog;
-//		}
-//		
-//		
-//		public void objetivoFinal(){
-////			 AlertDialog alertDialog = new AlertDialog.Builder(this)
-////		        .setTitle("Pop-up/Diálogo de alerta")//Título del diálogo
-////		        .setMessage("¿Desea Continuar?")//Mensaje del diálogo
-////		        .setPositiveButton("Si"/*Texto del botón positivo*/, new AlertDialog.OnClickListener() {
-////		            public void onClick(DialogInterface arg0, int arg1) {
-////		                // Aquí irá lo que se desee hacer cuando hagamos click en el boton Si
-////		                //Llamo al método alertaSi()
-////		            	Intent intent = new Intent(Balones.this, GestorActividades.class);
-////	            		startActivity(intent);
-////		            }
-////		 
-////		        })
-////		        .setNegativeButton("No"/*Texto del botón negativo*/, new AlertDialog.OnClickListener() {
-////		            public void onClick(DialogInterface dialog, int which) {
-////		                //Aquí irá lo que se desee hacer cuando hagamos click en el botón Cancelar
-////		                //Llamo al método alertaNo
-////		                //alertaNo();
-////		            }
-////		        })
-////		        .setNeutralButton("Cancelar"/*Texto del botón cancelar*/, new AlertDialog.OnClickListener() {
-////		            public void onClick(DialogInterface dialog, int which) {
-////		                //Aquí irá lo que se desee hacer cuando hagamos click en el botón No
-////		                //Llamo al método alertaCancelar
-////		                //alertaCancelar();
-////		            }
-////		        }).create();
-////		        //Muestro el diálogo
-////		        alertDialog.show();
-//			
-//			
-//			
-//			
-//			
-//			/*AlertDialog alertDialog = new AlertDialog.Builder(this)
-//				.setMessage("Muy Bien!!! \n Objetivo logrado.")
-//				.setCancelable(false)
-//				.setPositiveButton("Continuar",
-//                    new DialogInterface.OnClickListener() {
-//						public void onClick(DialogInterface dialog, int id) {
-//		                    Intent intent = new Intent(Balones.this, GestorActividades.class);
-//		            		startActivity(intent);
-//						}
-//				}).create();
-//				alertDialog.show();*/
-//		}
+		/*//Method for generating Toast messages as they need to run on UI thread
+	    public void gameToast(final String msg) {
+		    this.runOnUiThread(new Runnable() {
+		        @Override
+		        public void run() {
+		           Toast.makeText(Balones.this, msg, Toast.LENGTH_SHORT).show();
+		        }
+		    });
+		}*/
 		
 
 }

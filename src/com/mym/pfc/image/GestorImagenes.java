@@ -94,7 +94,7 @@ public class GestorImagenes {
 	            };
 	        };
 	        
-	        mSprite.setScale(x, y);
+	        //mSprite.setScale(x, y);
 	        
 	        mScene.registerTouchArea(mSprite);
 	        mScene.attachChild(mSprite);

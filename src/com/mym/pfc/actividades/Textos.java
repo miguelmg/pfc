@@ -100,9 +100,10 @@ public class Textos extends Actividades implements IScrollDetectorListener, IOnS
 	        float centerX = 0.5f;//CAMERA_WIDTH/2.0f;
 	        float centerY = 0.5f;//CAMERA_HEIGHT/2.0f;
 	        
-	        GestorFuentes.cargarFuente(this.getFontManager(), this.getTextureManager());
 	        
-	        gf = new GestorFuentes(this);        
+	        
+	        gf = new GestorFuentes(this);  
+	        gf.cargarFuente(this.getFontManager(), this.getTextureManager());      
 	        gf.añadirTexto(10, 40, "Escoja respuesta correcta", mMainScene, this.getVertexBufferObjectManager());
 	        gf.añadirTextoClicable(10, 400, "Hola", mMainScene, this.getVertexBufferObjectManager());
 	        gf.añadirTextoClicable(10, 500, "Adios", mMainScene, this.getVertexBufferObjectManager());

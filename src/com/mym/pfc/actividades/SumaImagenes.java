@@ -1,38 +1,29 @@
 package com.mym.pfc.actividades;
 
 import org.andengine.engine.camera.Camera;
-import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
-import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
-import org.andengine.opengl.font.Font;
-import org.andengine.opengl.font.FontFactory;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.region.TiledTextureRegion;
-import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.color.Color;
 
-import android.R;
 import android.content.Context;
-import android.graphics.Typeface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Display;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.mym.pfc.clases.ContenedorObjetos;
 import com.mym.pfc.image.GestorImagenes;
 import com.mym.pfc.modulos.GestorFuentes;
 
-public class Balones extends Actividades implements IScrollDetectorListener, IOnSceneTouchListener {
+public class SumaImagenes extends Actividades implements IScrollDetectorListener, IOnSceneTouchListener {
 
 	    // ===========================================================
 	    // Constants
@@ -45,7 +36,7 @@ public class Balones extends Actividades implements IScrollDetectorListener, IOn
 	    static boolean hasTouched = false;
 	    static boolean touchText = false;
 	    static boolean digText = false;
-	    private Font mFont;
+	    
 	    
 	    // ===========================================================
 	    // Fields
@@ -53,21 +44,9 @@ public class Balones extends Actividades implements IScrollDetectorListener, IOn
 	 
 	    private Camera mCamera;
 	    private Scene mMainScene;
-	 
-	    private BitmapTextureAtlas mBitmapTextureAtlas;
-	    private TiledTextureRegion mBallTiledTextureRegion;
 	    
 	    private SurfaceScrollDetector mScrollDetector;
-	    
-//	    static Sprite ball;
-//	    static Sprite ball2;
-//	    static Sprite ball3;
-//	    static Sprite ball4;
-//	    static Sprite ball5;
-	    
-	    //private Sprite ball;
-	    
-	    
+
 	    private ContenedorObjetos co;
 	    private GestorImagenes gi;
 	    
@@ -76,22 +55,16 @@ public class Balones extends Actividades implements IScrollDetectorListener, IOn
 	    
 	    private GestorFuentes gf;
 	    
-	    // ===========================================================
-	    // Constructors
-	    // ===========================================================
-	 
-	    // ===========================================================
-	    // Getter & Setter
-	    // ===========================================================
-	 
-	    // ===========================================================
-	    // Methods for/from SuperClass/Interfaces
-	    // ===========================================================
-	 
-
+	    //variables de actividad
+	    private String imagen;
+	    private int numeroResultados;
+	    private int rangoNum1;
+	    private int rangoNum2;
+	    
 	    public EngineOptions onCreateEngineOptions() {
 	    	Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-	        CAMERA_WIDTH = display.getWidth();
+	        
+	    	CAMERA_WIDTH = display.getWidth();
 	        CAMERA_HEIGHT = display.getHeight();
 	    	
 	        this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
@@ -101,18 +74,26 @@ public class Balones extends Actividades implements IScrollDetectorListener, IOn
 	 
 	    @Override
 	    protected void onCreateResources() {
-	    	co = new ContenedorObjetos(0, "pelotas.png", 64, 64,16);
 	    	
+	    	Bundle bundle = getIntent().getExtras();
+	    	imagen = bundle.getString("imagen");
+	    	numeroResultados = bundle.getInt("numeroResultados");
+	    	rangoNum1 = bundle.getInt("rangoNum1");
+	    	rangoNum2 = bundle.getInt("rangoNum2");
+	    	
+//	    	String imagenCo1 = "pelotas.png";
+//	    	String imagenCo2 = "pelotas.png";
+	    	
+	    	//int randNum1 = minimum + (int)(Math.random()*maximum); 
+	    	int randNum1 = 0 + (int)(Math.random() * rangoNum1); 
+	    	int randNum2 = 0 + (int)(Math.random() * rangoNum2); 
+	    	
+	    	resultadoCorrecto = randNum1 + randNum2;
+	    	
+	    	co = new ContenedorObjetos(0, imagen, 64, 64, randNum1);
 	    	gi = new GestorImagenes(this, this.getTextureManager(), co);
-	    	
-	    	co2 = new ContenedorObjetos(1, "pelotas.png", 64, 64, 1);
-	    	
+	    	co2 = new ContenedorObjetos(1, imagen, 64, 64, randNum2);
 	    	gi2 = new GestorImagenes(this, this.getTextureManager(), co2);
-	    	
-	    	//this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 64);
-	        //this.mBallTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "pelotas.png", 0, 0, 1, 1);
-	        
-	        //this.mBitmapTextureAtlas.load();
 	 
 	    }
 	 
@@ -121,33 +102,40 @@ public class Balones extends Actividades implements IScrollDetectorListener, IOn
 	        this.mEngine.registerUpdateHandler(new FPSLogger()); // logs the frame rate
 	        this.mMainScene = new Scene();
 	 
-	        this.mMainScene.setBackground(new Background(0, 0, 0.8784f));
+	        this.mMainScene.setBackground(new Background(0.7f, 0.7f, 0.7f));
 
-	        float centerX = 0.5f;//CAMERA_WIDTH/2.0f;
-	        float centerY = 0.5f;//CAMERA_HEIGHT/2.0f;
+//	        float centerX = 0.5f;//CAMERA_WIDTH/2.0f;
+//	        float centerY = 0.5f;//CAMERA_HEIGHT/2.0f;
 
 //	        GestorFuentes.cargarFuente(this.getFontManager(), this.getTextureManager());
-//	        
 //	        gf = new GestorFuentes();
-//	        
 //	        gf.añadirTexto(10, 40, "Escoja respuesta correcta", mMainScene, this.getVertexBufferObjectManager());
-//
-//	        
 //	        gf.añadirTextoClicable(10, 400, "Hola", mMainScene, this.getVertexBufferObjectManager());
 	        
-	        
-	        
-	        float[] area = new float[]{0.0f, 0.4f, 0.1f, 0.8f};
-	        
-	        gi.dibujaImagenes(area, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
-	        
-	        float[] area2 = new float[]{0.6f, 1f, 0.1f, 0.8f};
-	        
+	        float[] area = new float[]{0.0f, 0.4f, 0.1f, 0.8f};        
+	        gi.dibujaImagenes(area, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);	        
+	        float[] area2 = new float[]{0.6f, 1f, 0.1f, 0.8f};	        
 	        gi2.dibujaImagenes(area2, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
 
+	        
+	        int tamanoFuente = 70;
+	        gf = new GestorFuentes(this);
+	        gf.cargarFuente(this.getFontManager(), this.getTextureManager(), tamanoFuente);
+	        int operadorX = (CAMERA_WIDTH/2)-(tamanoFuente/2);
+	        int operadorY = (CAMERA_HEIGHT/2)-(tamanoFuente/2);
+	        gf.añadirTexto(operadorX, operadorY, " + ", mMainScene, this.getVertexBufferObjectManager());
+	        
+	        int resultadosY = (int)((CAMERA_HEIGHT*0.9f) - (tamanoFuente/2));        
+	        
+	        gf.añadirTextoResultados(CAMERA_WIDTH*0.1f - (tamanoFuente/2), resultadosY, "1", mMainScene, this.getVertexBufferObjectManager());
+	        gf.añadirTextoResultados(CAMERA_WIDTH*0.3f - (tamanoFuente/2), resultadosY, "42", mMainScene, this.getVertexBufferObjectManager());
+	        gf.añadirTextoResultados(CAMERA_WIDTH*0.5f - (tamanoFuente/2), resultadosY, String.valueOf(resultadoCorrecto), mMainScene, this.getVertexBufferObjectManager());
+	        gf.añadirTextoResultados(CAMERA_WIDTH*0.7f - (tamanoFuente/2), resultadosY, "123", mMainScene, this.getVertexBufferObjectManager());
+//	        pintaResultados(numeroResultados);
+	        
 	        return this.mMainScene;
 	        
-	    }
+	    } 
 
 		public boolean onSceneTouchEvent(Scene pScene,
 				TouchEvent pSceneTouchEvent) {

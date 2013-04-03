@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mym.pfc.actividades.Balones;
+import com.mym.pfc.actividades.SumaImagenes;
 import com.mym.pfc.actividades.Textos;
 import com.mym.pfc.clases.Actividad;
 import com.mym.pfc.parser.ActivitatParser;
@@ -98,7 +99,9 @@ public class GestorActividades extends Activity implements OnItemClickListener{
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 		Intent intent;
-		
+
+        
+
 		switch (position) {
 			case 0:
 					intent = new Intent(GestorActividades.this, Balones.class);
@@ -110,10 +113,18 @@ public class GestorActividades extends Activity implements OnItemClickListener{
 					startActivity(intent);
 					//finish();
 			break;
+			case 2:
+				intent = new Intent(GestorActividades.this, SumaImagenes.class);
+				intent.putExtra("imagen", "pelotas.png");
+				intent.putExtra("numeroResultados", 4);
+				intent.putExtra("rangoNum1", 5);
+				intent.putExtra("rangoNum2", 7);
+				startActivity(intent);
+				//finish();
+			break;
 			default:
 				break;
-		}
-		
+		}	
 		
 		/*Intent intent = new Intent();
         intent.putExtra(LlistatOpcions.KEY_LLISTAT, opcions[position]);

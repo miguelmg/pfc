@@ -59,11 +59,38 @@ public class GestorFuentes {
 		return true;
 	}
 	
-	public static final void cargarFuente(FontManager fm, TextureManager tm){
+	public boolean añadirTextoResultados(float x, float y, final String texto, Scene mScene, VertexBufferObjectManager vbom){
+		
+		final Text centerText = new Text(x, y, mFont, texto, vbom){	
+			String text = texto;
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				//TODO llamara al evento que tenga que controlar la tarea(ejemplo: pantalla respuestas en caso de resultado correcto)
+				if(act.resultadoCorrecto == Float.parseFloat(text)){
+					act.gameToast("Respuesta correcta");
+					act.respuestaCorrecta = true;
+//					act.pasarSiguienteActividad();
+				}
+				return true;
+			}
+        };
+        
+        /* Attach the Text object to the Scene */
+        mScene.registerTouchArea(centerText);
+        mScene.attachChild(centerText);
+
+		return true;
+	}
+	
+	public void cargarFuente(FontManager fm, TextureManager tm){
 		mFont = FontFactory.create(fm, tm, 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32);
         mFont.load();
 	}
 	
+	public void cargarFuente(FontManager fm, TextureManager tm, int tamanoFuente){
+		mFont = FontFactory.create(fm, tm, 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), tamanoFuente);
+        mFont.load();
+	}
 	
 	
 	

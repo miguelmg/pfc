@@ -54,8 +54,13 @@ public class ContenedorObjetos {
 		
 		//Mirar ambas funciones cuando se pruebe. No se cual funciona mejor
 		//int numTotalObjetosXY = ((int) Math.floor(raizNumeroObjetos));
-		float numTotalObjetosXY = ((int) raizNumeroObjetos)+1;
-				
+		float numTotalObjetosXY; 
+		if((raizNumeroObjetos - (int) raizNumeroObjetos) == 0){
+			numTotalObjetosXY = (int) raizNumeroObjetos;
+		}else{
+			numTotalObjetosXY = ((int) raizNumeroObjetos)+1;
+		}
+		
 		padding_unitario = PADDING / (numTotalObjetosXY + 1);
 		x1 = padding_unitario;
 		y1 = padding_unitario;

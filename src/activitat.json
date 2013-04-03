@@ -12,5 +12,11 @@
                 "cantidad": "3",
                 "objetivo": "Mover",
         },
+        {
+                "titulo": "Suma",
+                "recursos": "Flores",
+                "cantidad": "3",
+                "objetivo": "Mover",
+        }
     ]
 }

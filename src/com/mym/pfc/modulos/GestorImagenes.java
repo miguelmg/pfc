@@ -1,4 +1,4 @@
-package com.mym.pfc.image;
+package com.mym.pfc.modulos;
 
 import java.util.ArrayList;
 
@@ -89,7 +89,7 @@ public class GestorImagenes {
 	            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
 	            {
 	            	elementos.setTocado(true);
-	            	act.gameToast("Has tocado el conjunto de " + elementos.getNumeroObjetos() + " objetos.");
+	            	//act.gameToast("Has tocado el conjunto de " + elementos.getNumeroObjetos() + " objetos.");
 	                return true;
 	            };
 	        };

@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 public abstract class Actividades extends SimpleBaseGameActivity {
 
-	public float resultadoCorrecto = 0;
+	public int resultadoCorrecto = 0;
 	public boolean respuestaCorrecta = false;
 	//Method for generating Toast messages as they need to run on UI thread
     public void gameToast(final String msg) {
@@ -20,4 +20,9 @@ public abstract class Actividades extends SimpleBaseGameActivity {
 	    });
 	}
 
+    public abstract void reiniciarActividad();
+
+	public abstract void actualizarActividad();
+    
+    
 }

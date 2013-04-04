@@ -26,7 +26,7 @@ import com.mym.pfc.modulos.GestorFuentes;
 import com.mym.pfc.modulos.GestorImagenes;
 import com.mym.pfc.modulos.Marcador;
 
-public class SumaImagenes extends Actividades implements IScrollDetectorListener, IOnSceneTouchListener {
+public class RestaImagenes extends Actividades implements IScrollDetectorListener, IOnSceneTouchListener {
 
 	    // ===========================================================
 	    // Constants
@@ -91,7 +91,12 @@ public class SumaImagenes extends Actividades implements IScrollDetectorListener
 	    	numeroResultados = bundle.getInt("numeroResultados");
 	    	rangoNum1 = bundle.getInt("rangoNum1");
 	    	rangoNum2 = bundle.getInt("rangoNum2");
-	    	maximo = rangoNum1+rangoNum2;
+	    	if(rangoNum1>rangoNum2){
+	    		maximo = rangoNum1;
+	    	}else{
+	    		maximo = rangoNum2;	
+	    	}
+	    	
 
 	    	cargarValores();
 	 
@@ -158,7 +163,7 @@ public class SumaImagenes extends Actividades implements IScrollDetectorListener
 	        gf.cargarFuente(this.getFontManager(), this.getTextureManager(), tamanoFuente);
 	        int operadorX = (CAMERA_WIDTH/2)-(tamanoFuente/2);
 	        int operadorY = (CAMERA_HEIGHT/2)-(tamanoFuente/2);
-	        gf.anadirTexto(operadorX, operadorY, " + ", mMainScene, this.getVertexBufferObjectManager());
+	        gf.anadirTexto(operadorX, operadorY, " - ", mMainScene, this.getVertexBufferObjectManager());
 	        int resultadosY = (int)((CAMERA_HEIGHT*0.9f) - (tamanoFuente/2));        
 	        
 	        //calculo posiciones de resultados
@@ -200,9 +205,15 @@ public class SumaImagenes extends Actividades implements IScrollDetectorListener
 		
 		public void cargarValores(){
 			int randNum1 = 0 + (int)(Math.random() * rangoNum1); 
-	    	int randNum2 = 0 + (int)(Math.random() * rangoNum2); 
+			int randNum2 = 0 + (int)(Math.random() * rangoNum2);
+			if(randNum1<randNum2){
+				int aux = randNum1;
+				randNum1 = randNum2;
+				randNum2 = aux;
+			}
+			 
 	    	
-	    	resultadoCorrecto = randNum1 + randNum2;
+	    	resultadoCorrecto = randNum1 - randNum2;
 	    	
 	    	co = new ContenedorObjetos(0, imagen, 64, 64, randNum1);
 	    	gi = new GestorImagenes(this, this.getTextureManager(), co);
@@ -211,18 +222,17 @@ public class SumaImagenes extends Actividades implements IScrollDetectorListener
 	    	
 	    	posicionCorrecto = 0 + (int)(Math.random() * numeroResultados);
 	    	resultados = new ArrayList<Integer>();
-	    	numero = 0 + (int)(Math.random() * maximo);
-	        for(int i = 0; i < numeroResultados; i++){
-	        	if(i == posicionCorrecto){
-	        		resultados.add(resultadoCorrecto);
-	        	}else{
-	        		while(resultados.contains(numero) || numero == resultadoCorrecto){
-		        		numero = 0 + (int)(Math.random() * maximo);
+	    	 for(int i = 0; i < numeroResultados; i++){
+		        	if(i == posicionCorrecto){
+		        		resultados.add(resultadoCorrecto);
+		        	}else{
+		        		while(resultados.contains(numero) || numero == resultadoCorrecto){
+			        		numero = 0 + (int)(Math.random() * maximo);
+			        	}
+		        		resultados.add(numero);
 		        	}
-	        		resultados.add(numero);
-	        	}
-	        	
-	        }
+		        	
+		        }
 	    	
 		}
 

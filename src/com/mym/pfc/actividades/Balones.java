@@ -29,8 +29,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.mym.pfc.clases.ContenedorObjetos;
-import com.mym.pfc.image.GestorImagenes;
 import com.mym.pfc.modulos.GestorFuentes;
+import com.mym.pfc.modulos.GestorImagenes;
 
 public class Balones extends Actividades implements IScrollDetectorListener, IOnSceneTouchListener {
 
@@ -172,6 +172,18 @@ public class Balones extends Actividades implements IScrollDetectorListener, IOn
 		@Override
 		public void onScrollStarted(ScrollDetector arg0, int arg1, float arg2,
 				float arg3) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void reiniciarActividad() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void actualizarActividad() {
 			// TODO Auto-generated method stub
 			
 		}

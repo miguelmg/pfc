@@ -30,8 +30,8 @@ import android.widget.Toast;
 
 import com.mym.pfc.GestorActividades;
 import com.mym.pfc.clases.ContenedorObjetos;
-import com.mym.pfc.image.GestorImagenes;
 import com.mym.pfc.modulos.GestorFuentes;
+import com.mym.pfc.modulos.GestorImagenes;
 
 public class Textos extends Actividades implements IScrollDetectorListener, IOnSceneTouchListener {
 
@@ -104,9 +104,9 @@ public class Textos extends Actividades implements IScrollDetectorListener, IOnS
 	        
 	        gf = new GestorFuentes(this);  
 	        gf.cargarFuente(this.getFontManager(), this.getTextureManager());      
-	        gf.añadirTexto(10, 40, "Escoja respuesta correcta", mMainScene, this.getVertexBufferObjectManager());
-	        gf.añadirTextoClicable(10, 400, "Hola", mMainScene, this.getVertexBufferObjectManager());
-	        gf.añadirTextoClicable(10, 500, "Adios", mMainScene, this.getVertexBufferObjectManager());
+	        gf.anadirTexto(10, 40, "Escoja respuesta correcta", mMainScene, this.getVertexBufferObjectManager());
+	        gf.anadirTextoClicable(10, 400, "Hola", mMainScene, this.getVertexBufferObjectManager());
+	        gf.anadirTextoClicable(10, 500, "Adios", mMainScene, this.getVertexBufferObjectManager());
 	        
 	        return this.mMainScene;
 	        
@@ -135,6 +135,18 @@ public class Textos extends Actividades implements IScrollDetectorListener, IOnS
 		@Override
 		public void onScrollStarted(ScrollDetector arg0, int arg1, float arg2,
 				float arg3) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void reiniciarActividad() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void actualizarActividad() {
 			// TODO Auto-generated method stub
 			
 		}

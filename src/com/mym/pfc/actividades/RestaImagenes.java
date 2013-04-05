@@ -22,7 +22,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.mym.pfc.clases.ContenedorObjetos;
-import com.mym.pfc.modulos.GestorFuentes;
+import com.mym.pfc.modulos.GestorTextos;
 import com.mym.pfc.modulos.GestorImagenes;
 import com.mym.pfc.modulos.Marcador;
 
@@ -56,8 +56,8 @@ public class RestaImagenes extends Actividades implements IScrollDetectorListene
 	    private ContenedorObjetos co2;
 	    private GestorImagenes gi2;
 	    
-	    private GestorFuentes gf;
-	    private GestorFuentes gfMarcador;
+	    private GestorTextos gf;
+	    private GestorTextos gfMarcador;
 	    
 	    //variables de actividad
 	    private String imagen;
@@ -159,7 +159,7 @@ public class RestaImagenes extends Actividades implements IScrollDetectorListene
 
 	        
 	        int tamanoFuente = 70;
-	        gf = new GestorFuentes(this);
+	        gf = new GestorTextos(this);
 	        gf.cargarFuente(this.getFontManager(), this.getTextureManager(), tamanoFuente);
 	        int operadorX = (CAMERA_WIDTH/2)-(tamanoFuente/2);
 	        int operadorY = (CAMERA_HEIGHT/2)-(tamanoFuente/2);
@@ -192,7 +192,7 @@ public class RestaImagenes extends Actividades implements IScrollDetectorListene
 //	        gf.anadirTextoResultados(CAMERA_WIDTH*0.7f + (tamanoFuente/2), resultadosY, "123", mMainScene, this.getVertexBufferObjectManager());
 //	        pintaResultados(numeroResultados);
 	        
-	        gfMarcador = new GestorFuentes(this);
+	        gfMarcador = new GestorTextos(this);
 	        gfMarcador.cargarFuente(this.getFontManager(), this.getTextureManager(), 36);
 	        int mX = (int)(CAMERA_WIDTH*0.75f);
 	        int mY = (int)(CAMERA_HEIGHT*0.05f);

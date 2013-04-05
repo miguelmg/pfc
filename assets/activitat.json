@@ -23,6 +23,12 @@
                 "recursos": "Flores",
                 "cantidad": "3",
                 "objetivo": "Mover"
+        },
+        {
+                "titulo": "Arrastra i Ordena",
+                "recursos": "Flores",
+                "cantidad": "3",
+                "objetivo": "Mover"
         }
     ]
 }

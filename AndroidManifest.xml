@@ -27,6 +27,7 @@
         <activity android:name=".actividades.Textos"></activity>
         <activity android:name=".actividades.SumaImagenes"></activity>
         <activity android:name=".actividades.RestaImagenes"></activity>
+        <activity android:name=".actividades.OrdenaNumeros"></activity>
     </application>
 
 </manifest>

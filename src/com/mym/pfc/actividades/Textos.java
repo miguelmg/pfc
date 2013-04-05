@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 import com.mym.pfc.GestorActividades;
 import com.mym.pfc.clases.ContenedorObjetos;
-import com.mym.pfc.modulos.GestorFuentes;
+import com.mym.pfc.modulos.GestorTextos;
 import com.mym.pfc.modulos.GestorImagenes;
 
 public class Textos extends Actividades implements IScrollDetectorListener, IOnSceneTouchListener {
@@ -60,7 +60,7 @@ public class Textos extends Actividades implements IScrollDetectorListener, IOnS
 	    
 	    private SurfaceScrollDetector mScrollDetector;
 	    
-	    private GestorFuentes gf;
+	    private GestorTextos gf;
 	    
 	    // ===========================================================
 	    // Constructors
@@ -102,7 +102,7 @@ public class Textos extends Actividades implements IScrollDetectorListener, IOnS
 	        
 	        
 	        
-	        gf = new GestorFuentes(this);  
+	        gf = new GestorTextos(this);  
 	        gf.cargarFuente(this.getFontManager(), this.getTextureManager());      
 	        gf.anadirTexto(10, 40, "Escoja respuesta correcta", mMainScene, this.getVertexBufferObjectManager());
 	        gf.anadirTextoClicable(10, 400, "Hola", mMainScene, this.getVertexBufferObjectManager());

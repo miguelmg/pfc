@@ -15,7 +15,7 @@ import android.view.MotionEvent;
 
 import com.mym.pfc.actividades.Actividades;
 
-public class GestorFuentes {
+public class GestorTextos {
 	private static Font mFont;
 	private float positionX;
 	private float positionY;
@@ -24,11 +24,11 @@ public class GestorFuentes {
 	private FontManager fm;
 	private TextureManager tm;
 	
-	public GestorFuentes(){
+	public GestorTextos(){
 		
 	}
 	
-	public GestorFuentes(Actividades act){
+	public GestorTextos(Actividades act){
 		this.act = act;
 	}
 	
@@ -60,6 +60,25 @@ public class GestorFuentes {
 
 		return true;
 	}
+	//NO ESTA HECHA
+	public boolean anadirTextoArrastrable(float x, float y, final String texto, Scene mScene, VertexBufferObjectManager vbom){
+		
+		final Text centerText = new Text(x, y, mFont, texto, vbom){	
+			String text = "Respuesta escogida: " + texto.toString();
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				//TODO llamara al evento que tenga que controlar la tarea(ejemplo: pantalla respuestas en caso de resultado correcto)
+				act.gameToast(text);
+				return true;
+			}
+        };
+        
+        /* Attach the Text object to the Scene */
+        mScene.registerTouchArea(centerText);
+        mScene.attachChild(centerText);
+
+		return true;
+}
 	
 	public boolean anadirTextoResultados(float x, float y, final String texto, Scene mScene, VertexBufferObjectManager vbom){
 
@@ -114,6 +133,8 @@ public class GestorFuentes {
 
 		return true;
 	}
+	
+	
 	
 	
 	public void cargarFuente(FontManager fm, TextureManager tm){

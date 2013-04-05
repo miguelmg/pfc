@@ -29,7 +29,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.mym.pfc.clases.ContenedorObjetos;
-import com.mym.pfc.modulos.GestorFuentes;
+import com.mym.pfc.modulos.GestorTextos;
 import com.mym.pfc.modulos.GestorImagenes;
 
 public class Balones extends Actividades implements IScrollDetectorListener, IOnSceneTouchListener {
@@ -74,7 +74,7 @@ public class Balones extends Actividades implements IScrollDetectorListener, IOn
 	    private ContenedorObjetos co2;
 	    private GestorImagenes gi2;
 	    
-	    private GestorFuentes gf;
+	    private GestorTextos gf;
 	    
 	    // ===========================================================
 	    // Constructors

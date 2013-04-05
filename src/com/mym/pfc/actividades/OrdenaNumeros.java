@@ -6,6 +6,7 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
@@ -26,7 +27,7 @@ import com.mym.pfc.modulos.GestorTextos;
 import com.mym.pfc.modulos.GestorImagenes;
 import com.mym.pfc.modulos.Marcador;
 
-public class SumaImagenes extends Actividades implements IScrollDetectorListener, IOnSceneTouchListener {
+public class OrdenaNumeros extends Actividades implements IScrollDetectorListener, IOnSceneTouchListener {
 
 	    // ===========================================================
 	    // Constants
@@ -91,7 +92,12 @@ public class SumaImagenes extends Actividades implements IScrollDetectorListener
 	    	numeroResultados = bundle.getInt("numeroResultados");
 	    	rangoNum1 = bundle.getInt("rangoNum1");
 	    	rangoNum2 = bundle.getInt("rangoNum2");
-	    	maximo = rangoNum1+rangoNum2;
+	    	if(rangoNum1>rangoNum2){
+	    		maximo = rangoNum1;
+	    	}else{
+	    		maximo = rangoNum2;	
+	    	}
+	    	
 
 	    	cargarValores();
 	 
@@ -143,7 +149,9 @@ public class SumaImagenes extends Actividades implements IScrollDetectorListener
 			this.mEngine.setScene(mMainScene);
 		}
 		
-		public void cargarScena(){
+		//Cargar escena elementos estaticos
+		
+		/*public void cargarScena(){
 			this.mMainScene = new Scene();
 			this.mMainScene.setBackground(new Background(0.7f, 0.7f, 0.7f));
 	        
@@ -154,11 +162,11 @@ public class SumaImagenes extends Actividades implements IScrollDetectorListener
 
 	        
 	        int tamanoFuente = 70;
-	        gf = new GestorTextos(this);
+	        gf = new GestorFuentes(this);
 	        gf.cargarFuente(this.getFontManager(), this.getTextureManager(), tamanoFuente);
 	        int operadorX = (CAMERA_WIDTH/2)-(tamanoFuente/2);
 	        int operadorY = (CAMERA_HEIGHT/2)-(tamanoFuente/2);
-	        gf.anadirTexto(operadorX, operadorY, " + ", mMainScene, this.getVertexBufferObjectManager());
+	        gf.anadirTexto(operadorX, operadorY, " - ", mMainScene, this.getVertexBufferObjectManager());
 	        int resultadosY = (int)((CAMERA_HEIGHT*0.9f) - (tamanoFuente/2));        
 	        
 	        //calculo posiciones de resultados
@@ -187,7 +195,7 @@ public class SumaImagenes extends Actividades implements IScrollDetectorListener
 //	        gf.anadirTextoResultados(CAMERA_WIDTH*0.7f + (tamanoFuente/2), resultadosY, "123", mMainScene, this.getVertexBufferObjectManager());
 //	        pintaResultados(numeroResultados);
 	        
-	        gfMarcador = new GestorTextos(this);
+	        gfMarcador = new GestorFuentes(this);
 	        gfMarcador.cargarFuente(this.getFontManager(), this.getTextureManager(), 36);
 	        int mX = (int)(CAMERA_WIDTH*0.75f);
 	        int mY = (int)(CAMERA_HEIGHT*0.05f);
@@ -196,13 +204,57 @@ public class SumaImagenes extends Actividades implements IScrollDetectorListener
 	        
 	        Marcador.actualizaMarcador(gfMarcador);
 	        
+		}*/
+		
+		//Cargar escena elementos estaticos
+		
+		public void cargarScena(){
+			this.mMainScene = new Scene();
+			this.mMainScene.setBackground(new Background(0.7f, 0.7f, 0.7f));
+			
+			
+			dibujarCajas(2);
+		       
+		        
 		}
 		
+		
+		public void dibujarCajas(float numeroCajas){
+			
+			float padding = (30f*CAMERA_WIDTH)/100f;
+			float position = (70f*CAMERA_WIDTH)/100f;
+			
+			float padding_unitario = padding / (numeroCajas+1);
+			float tamano_unitario = position / numeroCajas;
+			
+			float x1, x2, y1, y2;
+			
+			x1 = padding_unitario;
+			y1 = (int)((CAMERA_HEIGHT*0.65f));
+			
+			x2 = padding_unitario + tamano_unitario;
+			y2 = y1 + tamano_unitario;
+			
+			for (int i = 0; i<(int)numeroCajas; i++){
+				
+				final Rectangle caja = new Rectangle(x1, y1, tamano_unitario, tamano_unitario, this.getVertexBufferObjectManager());
+				x1 = x1 + tamano_unitario + padding_unitario;
+				caja.setColor(1f, 1f, 1f);
+				this.mMainScene.attachChild(caja);
+			}
+		}
+	
 		public void cargarValores(){
 			int randNum1 = 0 + (int)(Math.random() * rangoNum1); 
-	    	int randNum2 = 0 + (int)(Math.random() * rangoNum2); 
+			int randNum2 = 0 + (int)(Math.random() * rangoNum2);
+			if(randNum1<randNum2){
+				int aux = randNum1;
+				randNum1 = randNum2;
+				randNum2 = aux;
+			}
+			 
 	    	
-	    	resultadoCorrecto = randNum1 + randNum2;
+	    	resultadoCorrecto = randNum1 - randNum2;
 	    	
 	    	co = new ContenedorObjetos(0, imagen, 64, 64, randNum1);
 	    	gi = new GestorImagenes(this, this.getTextureManager(), co);
@@ -211,18 +263,17 @@ public class SumaImagenes extends Actividades implements IScrollDetectorListener
 	    	
 	    	posicionCorrecto = 0 + (int)(Math.random() * numeroResultados);
 	    	resultados = new ArrayList<Integer>();
-	    	numero = 0 + (int)(Math.random() * maximo);
-	        for(int i = 0; i < numeroResultados; i++){
-	        	if(i == posicionCorrecto){
-	        		resultados.add(resultadoCorrecto);
-	        	}else{
-	        		while(resultados.contains(numero) || numero == resultadoCorrecto){
-		        		numero = 0 + (int)(Math.random() * maximo);
+	    	 for(int i = 0; i < numeroResultados; i++){
+		        	if(i == posicionCorrecto){
+		        		resultados.add(resultadoCorrecto);
+		        	}else{
+		        		while(resultados.contains(numero) || numero == resultadoCorrecto){
+			        		numero = 0 + (int)(Math.random() * maximo);
+			        	}
+		        		resultados.add(numero);
 		        	}
-	        		resultados.add(numero);
-	        	}
-	        	
-	        }
+		        	
+		        }
 	    	
 		}
 

@@ -35,8 +35,7 @@ public class Marcador {
 		mY = y;
 	}
 	
-	public static void actualizaMarcador(GestorFuentes gf){
-
+	public static void actualizaMarcador(GestorTextos gf){
         gf.anadirTextoMarcador(mX, mY, String.valueOf(aciertos),  mMainScene, mVbom, Color.GREEN_ARGB_PACKED_INT);
         gf.anadirTextoMarcador(mX*1.1f, mY, String.valueOf(errores), mMainScene, mVbom, Color.RED_ARGB_PACKED_INT);
         gf.anadirTextoMarcador(mX*1.2f, mY, String.valueOf(repeticiones), mMainScene, mVbom, Color.BLUE_ARGB_PACKED_INT);
@@ -44,6 +43,4 @@ public class Marcador {
         gf.setColor(Color.BLACK_ARGB_PACKED_INT);
 	}
 
-	
-	
 }

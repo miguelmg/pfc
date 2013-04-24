@@ -57,34 +57,6 @@ public class GestorActividades extends Activity implements OnItemClickListener{
 		listaActividades.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1 , titulosActividades));
 		listaActividades.setOnItemClickListener(this);
 		
-		/*Haciendo funcional la lista*/
-		
-        
-
-		 //Creamos la informaciÃ³n a pasar entre actividades
-		 //Bundle b = new Bundle();
-		 //b.putString("NOMBRE", txtNombre.getText().toString());
-		 
-		 //AÃ±adimos la informaciÃ³n al intent
-		 //intent.putExtras(b);
-		 
-		 //Iniciamos la nueva actividad
-		 //startActivity(intent);
-		
-		
-		
-		
-		//Button buton = (Button)findViewById(R.id.buton);
-		 
-        //Implementamos el evento â€œclickâ€� del botÃ³n
-        /*buton.setOnClickListener(new OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                  //Creamos el Intent
-            	 
-             }
-        });*/
-		
 	}
 
 	public void onClick(View view){
@@ -101,8 +73,6 @@ public class GestorActividades extends Activity implements OnItemClickListener{
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 		Intent intent;
-
-        
 
 		switch (position) {
 			case 0:
@@ -123,7 +93,7 @@ public class GestorActividades extends Activity implements OnItemClickListener{
 				intent.putExtra("rangoNum2", 7);
 				startActivity(intent);
 				//finish();
-			break;
+				break;
 			case 3:
 				intent = new Intent(GestorActividades.this, RestaImagenes.class);
 				intent.putExtra("imagen", "pelotas.png");
@@ -132,7 +102,7 @@ public class GestorActividades extends Activity implements OnItemClickListener{
 				intent.putExtra("rangoNum2", 7);
 				startActivity(intent);
 				//finish();
-			break;
+				break;
 			case 4:
 				intent = new Intent(GestorActividades.this, OrdenaNumeros.class);
 				intent.putExtra("imagen", "pelotas.png");
@@ -141,7 +111,7 @@ public class GestorActividades extends Activity implements OnItemClickListener{
 				intent.putExtra("rangoNum2", 7);
 				startActivity(intent);
 				//finish();
-			break;
+				break;
 			default:
 				break;
 		}	

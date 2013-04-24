@@ -19,9 +19,12 @@ public abstract class Actividades extends SimpleBaseGameActivity {
 	        }
 	    });
 	}
-
+    
+    //reinicia la actividad con otros valores (cambia de pantalla)
     public abstract void reiniciarActividad();
 
+    
+    //actualiza la pantalla o la repinta (la misma pantalla)
 	public abstract void actualizarActividad();
     
     

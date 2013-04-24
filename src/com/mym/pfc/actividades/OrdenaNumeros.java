@@ -1,6 +1,8 @@
 package com.mym.pfc.actividades;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
@@ -23,6 +25,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.mym.pfc.clases.ContenedorObjetos;
+import com.mym.pfc.modulos.Area;
 import com.mym.pfc.modulos.GestorTextos;
 import com.mym.pfc.modulos.GestorImagenes;
 import com.mym.pfc.modulos.Marcador;
@@ -62,15 +65,17 @@ public class OrdenaNumeros extends Actividades implements IScrollDetectorListene
 	    
 	    //variables de actividad
 	    private String imagen;
-	    private int numeroResultados;
-	    private int rangoNum1;
-	    private int rangoNum2;
+	    private int cantidadNumeros;
+	    private int valorMinimo;
+	    private int valorMaximo;
 	    private int maximo;
 	    private float controlPosicionX = 0.2f;
 	    private float posicionX = 0.1f;
 	    private int posicionCorrecto;
 	    private int numero = 0;
-	    private ArrayList<Integer> resultados = new ArrayList<Integer>();
+	    private ArrayList<Integer> elementosAOrdenar = new ArrayList<Integer>();
+	    private ArrayList<Integer> elementosOrdenados = new ArrayList<Integer>();
+	    private ArrayList<Area> areasOrdena = new ArrayList<Area>();
 	    
 	    
 	    public EngineOptions onCreateEngineOptions() {
@@ -89,17 +94,13 @@ public class OrdenaNumeros extends Actividades implements IScrollDetectorListene
 	    	
 	    	Bundle bundle = getIntent().getExtras();
 	    	imagen = bundle.getString("imagen");
-	    	numeroResultados = bundle.getInt("numeroResultados");
-	    	rangoNum1 = bundle.getInt("rangoNum1");
-	    	rangoNum2 = bundle.getInt("rangoNum2");
-	    	if(rangoNum1>rangoNum2){
-	    		maximo = rangoNum1;
-	    	}else{
-	    		maximo = rangoNum2;	
-	    	}
+	    	cantidadNumeros = bundle.getInt("numeroResultados");
+	    	valorMinimo = bundle.getInt("rangoNum1");
+	    	valorMaximo = bundle.getInt("rangoNum2");
+	    	this.generaNumeros(true);
 	    	
 
-	    	cargarValores();
+	    	//cargarValores();
 	 
 	    }
 	 
@@ -142,90 +143,67 @@ public class OrdenaNumeros extends Actividades implements IScrollDetectorListene
 
 		@Override
 		public void reiniciarActividad() {
+			
 			//onCreateScene();
 			//add your sprites and stuff to the scene...
-			cargarValores();
+			//cargarValores();
+			reiniciarDatos();
 			cargarScena();
 			this.mEngine.setScene(mMainScene);
 		}
 		
-		//Cargar escena elementos estaticos
 		
-		/*public void cargarScena(){
-			this.mMainScene = new Scene();
-			this.mMainScene.setBackground(new Background(0.7f, 0.7f, 0.7f));
-	        
-	        float[] area = new float[]{0.0f, 0.4f, 0.1f, 0.8f};        
-	        gi.dibujaImagenes(area, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);	        
-	        float[] area2 = new float[]{0.6f, 1f, 0.1f, 0.8f};	        
-	        gi2.dibujaImagenes(area2, new float[]{CAMERA_WIDTH, CAMERA_HEIGHT}, this.getVertexBufferObjectManager(), this.mMainScene);
-
-	        
-	        int tamanoFuente = 70;
-	        gf = new GestorFuentes(this);
-	        gf.cargarFuente(this.getFontManager(), this.getTextureManager(), tamanoFuente);
-	        int operadorX = (CAMERA_WIDTH/2)-(tamanoFuente/2);
-	        int operadorY = (CAMERA_HEIGHT/2)-(tamanoFuente/2);
-	        gf.anadirTexto(operadorX, operadorY, " - ", mMainScene, this.getVertexBufferObjectManager());
-	        int resultadosY = (int)((CAMERA_HEIGHT*0.9f) - (tamanoFuente/2));        
-	        
-	        //calculo posiciones de resultados
-//	        float controlPosicionX = 0.2f;
-//	        float posicionX = 0.1f;
-//	        int posicionCorrecto = 0 + (int)(Math.random() * numeroResultados);
-//	        int numero = 0;
-//	        ArrayList<Integer> resultados = new ArrayList<Integer>();
-	        //resultados.add(resultadoCorrecto);
-	        for(int i = 0; i < numeroResultados; i++){
-//	        	while(resultados.contains(numero)){
-//	        		numero = 0 + (int)(Math.random() * maximo);
-//	        	}
-//	        	resultados.add(numero);
-//	        	if(i==posicionCorrecto){
-//	        		gf.anadirTextoResultados(CAMERA_WIDTH*(posicionX+(controlPosicionX*i)) + (tamanoFuente/2), resultadosY, String.valueOf(resultadoCorrecto), mMainScene, this.getVertexBufferObjectManager());
-//	        	}else{
-//	        		gf.anadirTextoResultados(CAMERA_WIDTH*(posicionX+(controlPosicionX*i)) + (tamanoFuente/2), resultadosY, String.valueOf(numero), mMainScene, this.getVertexBufferObjectManager());
-//	        	}
-	        	gf.anadirTextoResultados(CAMERA_WIDTH*(posicionX+(controlPosicionX*i)) + (tamanoFuente/2), resultadosY, String.valueOf(resultados.get(i)), mMainScene, this.getVertexBufferObjectManager());
-	        }
-	        
-//	        gf.anadirTextoResultados(CAMERA_WIDTH*0.1f + (tamanoFuente/2), resultadosY, "1", mMainScene, this.getVertexBufferObjectManager());
-//	        gf.anadirTextoResultados(CAMERA_WIDTH*0.3f + (tamanoFuente/2), resultadosY, "42", mMainScene, this.getVertexBufferObjectManager());
-//	        gf.anadirTextoResultados(CAMERA_WIDTH*0.5f + (tamanoFuente/2), resultadosY, String.valueOf(resultadoCorrecto), mMainScene, this.getVertexBufferObjectManager());
-//	        gf.anadirTextoResultados(CAMERA_WIDTH*0.7f + (tamanoFuente/2), resultadosY, "123", mMainScene, this.getVertexBufferObjectManager());
-//	        pintaResultados(numeroResultados);
-	        
-	        gfMarcador = new GestorFuentes(this);
-	        gfMarcador.cargarFuente(this.getFontManager(), this.getTextureManager(), 36);
-	        int mX = (int)(CAMERA_WIDTH*0.75f);
-	        int mY = (int)(CAMERA_HEIGHT*0.05f);
-	        
-	        Marcador.cargarMarcador(mMainScene, this.getVertexBufferObjectManager(), mX, mY);
-	        
-	        Marcador.actualizaMarcador(gfMarcador);
-	        
-		}*/
-		
-		//Cargar escena elementos estaticos
+		public void reiniciarDatos(){
+			elementosAOrdenar = new ArrayList<Integer>();
+			elementosOrdenados = new ArrayList<Integer>();
+			areasOrdena = new ArrayList<Area>();
+			generaNumeros(true);
+		}
 		
 		public void cargarScena(){
 			this.mMainScene = new Scene();
 			this.mMainScene.setBackground(new Background(0.7f, 0.7f, 0.7f));
 			
+			//OrdenaNumeros
+			dibujarCajas();
+			dibujarNumeros(true);
 			
-			dibujarCajas(2);
-		       
+			//Marcador
+			gfMarcador = new GestorTextos(this);
+	        gfMarcador.cargarFuente(this.getFontManager(), this.getTextureManager(), 36);
+	        int mX = (int)(CAMERA_WIDTH*0.75f);
+	        int mY = (int)(CAMERA_HEIGHT*0.05f);
+	        Marcador.cargarMarcador(mMainScene, this.getVertexBufferObjectManager(), mX, mY);
+	        Marcador.actualizaMarcador(gfMarcador);
+
 		        
 		}
 		
+		private void generaNumeros(boolean aleatorio){	
+			int numero;
+			if(aleatorio){
+				for (int i = 0; i < this.cantidadNumeros; i++){
+					numero = valorMinimo + (int)(Math.random() * valorMaximo);
+					while(elementosAOrdenar.contains(numero)){
+						numero = valorMinimo + (int)(Math.random() * valorMaximo);
+					}
+					elementosAOrdenar.add(numero);
+				}
+			}else{
+				for (int i = 0; i < this.cantidadNumeros; i++){
+					elementosAOrdenar.add(valorMinimo+i);
+				}
+			}
+			
+		}
 		
-		public void dibujarCajas(float numeroCajas){
+		public void dibujarCajas(){
 			
 			float padding = (30f*CAMERA_WIDTH)/100f;
 			float position = (70f*CAMERA_WIDTH)/100f;
 			
-			float padding_unitario = padding / (numeroCajas+1);
-			float tamano_unitario = position / numeroCajas;
+			float padding_unitario = padding / (this.cantidadNumeros+1);
+			float tamano_unitario = position / this.cantidadNumeros;
 			
 			float x1, x2, y1, y2;
 			
@@ -234,53 +212,59 @@ public class OrdenaNumeros extends Actividades implements IScrollDetectorListene
 			
 			x2 = padding_unitario + tamano_unitario;
 			y2 = y1 + tamano_unitario;
-			
-			for (int i = 0; i<(int)numeroCajas; i++){
-				
-				final Rectangle caja = new Rectangle(x1, y1, tamano_unitario, tamano_unitario, this.getVertexBufferObjectManager());
+			//TODO
+			ordenarNumeros();
+			for (int i = 0; i<(int)this.cantidadNumeros; i++){
+				Area area = new Area(x1, y1, tamano_unitario, tamano_unitario);
+				area.dibujarAreaOrdena(elementosOrdenados.get(i), this.getVertexBufferObjectManager(), mMainScene);
+				areasOrdena.add(area);
 				x1 = x1 + tamano_unitario + padding_unitario;
-				caja.setColor(1f, 1f, 1f);
-				this.mMainScene.attachChild(caja);
 			}
 		}
-	
-		public void cargarValores(){
-			int randNum1 = 0 + (int)(Math.random() * rangoNum1); 
-			int randNum2 = 0 + (int)(Math.random() * rangoNum2);
-			if(randNum1<randNum2){
-				int aux = randNum1;
-				randNum1 = randNum2;
-				randNum2 = aux;
+		
+		private void ordenarNumeros(){
+			for(int i = 0; i < elementosAOrdenar.size(); i++){
+				elementosOrdenados.add(elementosAOrdenar.get(i));
 			}
-			 
-	    	
-	    	resultadoCorrecto = randNum1 - randNum2;
-	    	
-	    	co = new ContenedorObjetos(0, imagen, 64, 64, randNum1);
-	    	gi = new GestorImagenes(this, this.getTextureManager(), co);
-	    	co2 = new ContenedorObjetos(1, imagen, 64, 64, randNum2);
-	    	gi2 = new GestorImagenes(this, this.getTextureManager(), co2);
-	    	
-	    	posicionCorrecto = 0 + (int)(Math.random() * numeroResultados);
-	    	resultados = new ArrayList<Integer>();
-	    	 for(int i = 0; i < numeroResultados; i++){
-		        	if(i == posicionCorrecto){
-		        		resultados.add(resultadoCorrecto);
-		        	}else{
-		        		while(resultados.contains(numero) || numero == resultadoCorrecto){
-			        		numero = 0 + (int)(Math.random() * maximo);
-			        	}
-		        		resultados.add(numero);
-		        	}
-		        	
-		        }
-	    	
+			Collections.sort(elementosOrdenados);
 		}
+		
+		public void dibujarNumeros(boolean aleatorio){
+			//elementosAOrdenar = new ArrayList<Integer>();
+			String numero;
+		 	int tamanoFuente = 70;
+	        gf = new GestorTextos(this);
+	        gf.cargarFuente(this.getFontManager(), this.getTextureManager(), tamanoFuente);
+	        
+	        for (int i = 0; i < this.cantidadNumeros; i++){
+	        	numero = elementosAOrdenar.get(i).toString();
+	        	gf.anadirTextoArrastrable(CAMERA_WIDTH*(posicionX+(controlPosicionX*i)) + (tamanoFuente/2), 100f, numero, this.mMainScene, this.getVertexBufferObjectManager());
+	        }
+		}
+		
+		public Area esArea(float pX, float pY){
+			for(Area a : areasOrdena){
+				if(a.estaTocada(pX, pY)){
+					return a;
+				}
+			}return null;
+			
+		}
+		
+		//Hay dos métodos iguales aunque uno debería estar borrado para esta actividad
+		//Actualizar escena es para crear una nueva escena; 
+		//Reiniciar escena nos servía para sumar y restar que cuando te equivocabas tenías que volver a cargar la misma escena
 
 		@Override
 		public void actualizarActividad() {
 			cargarScena();
 			this.mEngine.setScene(mMainScene);
-		}		
+		}
+
+		public int getCantidadNumeros() {
+			return cantidadNumeros;
+		}	
+		
+		
 
 }

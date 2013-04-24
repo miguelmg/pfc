@@ -50,7 +50,8 @@ public class GestorImagenes {
 		
 	}
 	
-    /*
+    //utilizada en sumas y restas
+    /* 
      * area[0] = xIni
      * area[1] = xFin
      * area[2] = yIni
